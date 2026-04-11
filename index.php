@@ -61,6 +61,7 @@ if (isset($_POST['login'])) {
     }
 }
 
+
 $error = "";
 $pesan_daftar = "";
 
@@ -106,7 +107,7 @@ if (isset($_POST['daftar'])) {
     } else {
         $query = mysqli_query($koneksi, "INSERT INTO siswa (nis, nama, pasword, kelas) VALUES ('$nis', '$nama', '$pasword', '$kelas')");
         if ($query) {
-            echo "<script>alert('Pendaftaran Berhasil! Silakan Login.'); window.location.href='index.php';</script>";
+            echo "<script>alert('Pendaftaran Berhasil! Silakan Login.'); window.location.href='login.php';</script>";
         } else {
             $pesan_daftar = "Gagal mendaftar!";
         }
@@ -167,12 +168,17 @@ if (isset($_POST['daftar'])) {
         /* --- HERO SECTION MODERN --- */
         .hero-section {
             /* PERUBAHAN: Warna hijau kini GRADASI */
-            background: linear-gradient(135deg, var(--main-green) 0%, var(--soft-green) 100%);
+            background: linear-gradient(135deg, 
+            var(--main-green) 10%, 
+            var(--soft-green) 40%, 
+            #7a9461 60%, 
+            #a3b88e 90%);
             min-height: 85vh;
             padding: 120px 0 150px 0;
             color: white;
             position: relative;
             clip-path: ellipse(150% 100% at 50% 0%); /* Membuat lengkungan di bawah */
+            z-index: 1;
         }
 
         .hero-text {
@@ -234,9 +240,9 @@ if (isset($_POST['daftar'])) {
         /* --- BENTO GRID LAMA (Digabung dengan gaya tumpuk modern) --- */
         .grid-container {
             max-width: 1100px;
-            margin: -100px auto 50px; /* Overlap/menumpuk ke hero section */
+            margin: 100px auto 50px; /* Overlap/menumpuk ke hero section */
             position: relative;
-            z-index: 10;
+            z-index: -10;
             display: grid;
             grid-template-columns: 1fr 1fr 1.5fr;
             grid-auto-rows: minmax(150px, auto);
@@ -315,34 +321,61 @@ if (isset($_POST['daftar'])) {
         .social-icons i:hover { color: var(--orange-accent); transform: translateY(-5px); }
         .copyright { border-top: 1px solid #eee; margin-top: 50px; padding-top: 25px; font-size: 0.85rem; color: #999; }
 
-        /* --- RESPONSIVE MEDIA QUERIES --- */
-        @media (max-width: 991px) {
-            .hero-text { text-align: center; }
-            .hero-text h1 { font-size: 2.8rem; }
-            .hero-text p { margin: 0 auto 30px; }
-            .grid-container {
-                grid-template-columns: 1fr 1fr; 
-                margin-top: -60px;
-            }
-            .box-1 {
-                grid-row: auto; 
-                grid-column: span 2; 
-                padding: 40px;
-            }
-        }
-        @media (max-width: 767px) {
-            .hero-section { clip-path: ellipse(200% 100% at 50% 0%); padding-bottom: 100px; }
-            .hero-text h1 { font-size: 2.2rem; }
-            .grid-container {
-                grid-template-columns: 1fr; 
-                margin-top: -40px;
-            }
-            .box-1 { grid-column: span 1; padding: 30px; }
-            .footer-content h5::after { left: 50%; transform: translateX(-50%); }
-            .footer-content { text-align: center; }
-            .footer-content .d-inline-block { text-align: center !important; }
-            .contact-item { justify-content: center; }
-        }
+                                /* Styling agar teks statistik mengecil di HP */
+   .stat-number { font-size: 2.5rem; }
+.stat-label { font-size: 1rem; }
+.step-icon { 
+    width: 80px; 
+    height: 80px; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.step-icon i { font-size: 2rem; }
+.step-text { font-size: 1rem; font-weight: 600; }
+
+/* 2. TABLET (max-width: 991px) */
+@media (max-width: 991px) {
+    .hero-text { text-align: center; }
+    .hero-text h1 { font-size: 2.8rem; }
+    .hero-text p { margin: 0 auto 30px; }
+    .grid-container {
+        grid-template-columns: 1fr 1fr; 
+        margin-top: 10px;
+    }
+    .box-1 {
+        grid-row: auto; 
+        grid-column: span 2; 
+        padding: 40px;
+    }
+}
+
+/* 3. HP / ANDROID (max-width: 767px) */
+@media (max-width: 767px) {
+    .hero-section { clip-path: none; padding-bottom: 60px; } /* Hilangkan clip-path di HP agar aman */
+    .hero-text h1 { font-size: 2.2rem; }
+    
+    .grid-container {
+        grid-template-columns: 1fr; 
+        margin-top: 20px;
+    }
+
+    /* KUNCI: Kecilkan font & icon di sini supaya tetap sejajar */
+    .stat-number { font-size: 1.2rem !important; }
+    .stat-label { font-size: 0.7rem !important; }
+    
+    .step-icon { 
+        width: 50px !important; 
+        height: 50px !important; 
+    }
+    .step-icon i { font-size: 1rem !important; }
+    .step-text { font-size: 0.7rem !important; }
+
+    .box-1 { grid-column: span 1; padding: 30px; }
+    .footer-content { text-align: center; }
+    .footer-content h5::after { left: 50%; transform: translateX(-50%); }
+    .contact-item { justify-content: center; }
+}
     </style>
 </head>
 <body>
@@ -378,6 +411,59 @@ if (isset($_POST['daftar'])) {
         </div>
     </section>
 
+   <section class="py-4 bg-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-4">
+                <h4 class="fw-bold stat-number" style="color: var(--main-green);">150+</h4>
+                <p class="text-muted stat-label">Aspirasi</p>
+            </div>
+            <div class="col-4">
+                <h4 class="fw-bold stat-number" style="color: var(--orange-accent);">45</h4>
+                <p class="text-muted stat-label">Proses</p>
+            </div>
+            <div class="col-4">
+                <h4 class="fw-bold stat-number" style="color: var(--main-green);">102</h4>
+                <p class="text-muted stat-label">Selesai</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background: #f1f3f0;">
+    <div class="container text-center mb-4">
+        <h2 class="fw-bold h4">Bagaimana Cara Kerjanya?</h2>
+    </div>
+    <div class="container">
+        <div class="row g-2 justify-content-center">
+            <div class="col-3 text-center">
+                <div class="step-icon shadow-sm bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2">
+                    <i class="fas fa-user-edit text-success"></i>
+                </div>
+                <h6 class="step-text">Tulis</h6>
+            </div>
+            <div class="col-3 text-center">
+                <div class="step-icon shadow-sm bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2">
+                    <i class="fas fa-check-double text-success"></i>
+                </div>
+                <h6 class="step-text">Verif</h6>
+            </div>
+            <div class="col-3 text-center">
+                <div class="step-icon shadow-sm bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2">
+                    <i class="fas fa-reply text-success"></i>
+                </div>
+                <h6 class="step-text">Respon</h6>
+            </div>
+            <div class="col-3 text-center">
+                <div class="step-icon shadow-sm bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2">
+                    <i class="fas fa-check-circle text-success"></i>
+                </div>
+                <h6 class="step-text">Selesai</h6>
+            </div>
+        </div>
+    </div>
+</section>
+            
     <div class="grid-container" id="fitur">
         <div class="box box-1">
             <i class="fas fa-pen-nib"></i>
